@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env')
 
-SECRET_KEY = getenv('SECRET_KEY')
+SECRET_KEY = getenv('SECRET_KEY', '@7%0y4c8xbv1bzs81&pu!f_+ngtq6rj4gq*q-2wd-0$nn&nipa')
 
 DEBUG = getenv('DEBUG', False)
 
@@ -60,20 +60,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-if not DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': getenv('PGDATABASE'),
-            'USER': getenv('PGUSER'),
-            'PASSWORD': getenv('PGPASSWORD'),
-            'HOST': getenv('PGHOST'),
-            'PORT': getenv('PGPORT', 5432),
-            'OPTIONS': {
-                'sslmode': 'require',
-            },
-        }
-    }
+# if not DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': getenv('PGDATABASE'),
+#             'USER': getenv('PGUSER'),
+#             'PASSWORD': getenv('PGPASSWORD'),
+#             'HOST': getenv('PGHOST'),
+#             'PORT': getenv('PGPORT', 5432),
+#             'OPTIONS': {
+#                 'sslmode': 'require',
+#             },
+#         }
+#     }
 
 DATABASES = {
     'default': {
@@ -85,10 +85,6 @@ DATABASES = {
         'PORT': getenv('PGPORT', 5432),
         'OPTIONS': {
             'sslmode': 'require',
-        },
-        'TEST': {
-            'NAME': getenv('PGDATABASE'),
-            'HOST': getenv('TESTPGHOST')
         }
     }
 }
