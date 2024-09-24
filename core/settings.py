@@ -70,7 +70,7 @@ if not DEBUG:
             'HOST': getenv('PGHOST'),
             'PORT': getenv('PGPORT', 5432),
             'OPTIONS': {
-            'sslmode': 'require',
+                'sslmode': 'require',
             },
         }
     }
@@ -78,15 +78,16 @@ if not DEBUG:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': getenv('DEVPGDATABASE'),
-        'USER': getenv('DEVPGUSER'),
-        'PASSWORD': getenv('DEVPGPASSWORD'),
+        'NAME': getenv('PGDATABASE'),
+        'USER': getenv('PGUSER'),
+        'PASSWORD': getenv('PGPASSWORD'),
         'HOST': getenv('DEVPGHOST'),
-        'PORT': getenv('DEVPGPORT', 5432),
+        'PORT': getenv('PGPORT', 5432),
         'OPTIONS': {
-        'sslmode': 'require',
+            'sslmode': 'require',
         },
         'TEST': {
+            'NAME': getenv('PGDATABASE'),
             'HOST': getenv('TESTPGHOST')
         }
     }
