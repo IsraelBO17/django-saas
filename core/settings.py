@@ -85,7 +85,11 @@ DATABASES = {
         'PORT': getenv('PGPORT', 5432),
         'OPTIONS': {
             'sslmode': 'require',
-        }
+        },
+        'TEST': {
+            'NAME': 'reelservicedb',
+            'HOST': 'ep-lingering-poetry-a2ybd3lj.eu-central-1.aws.neon.tech',
+        },
     }
 }
 
