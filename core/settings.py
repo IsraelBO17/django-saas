@@ -86,6 +86,9 @@ DATABASES = {
         'OPTIONS': {
         'sslmode': 'require',
         },
+        'TEST': {
+            'HOST': getenv('TESTPGHOST')
+        }
     }
 }
 
