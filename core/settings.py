@@ -87,9 +87,9 @@ DATABASES = {
             'sslmode': 'require',
         },
         'TEST': {
-            'NAME': 'reelservicedb',
+            'NAME': getenv('PGDATABASE'),
             'HOST': getenv('TESTPGHOST')
-        },
+        }
     }
 }
 
