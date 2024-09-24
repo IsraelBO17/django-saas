@@ -30,6 +30,7 @@ python-dotenv==1.0.1
 pywin32==306
 requests==2.32.3
 requests-oauthlib==2.0.0
+ruff==0.6.7
 six==1.16.0
 sqlparse==0.5.1
 typing_extensions==4.12.2

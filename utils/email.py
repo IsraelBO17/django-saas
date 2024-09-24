@@ -14,7 +14,7 @@ def send_verification_email(user):
 def send_successful_verification_email(user):    
     user.email_user(
         subject='Successful Verification',
-        message=f'This is to notify you that you are been verified.',
+        message='This is to notify you that you are been verified.',
         fail_silently=True
     )
 
@@ -31,14 +31,14 @@ def send_password_reset_email(user):
 def send_successful_password_reset_email(user):    
     user.email_user(
         subject='Successful Password Reset',
-        message=f'This is to notify you that you have successfully rest your password. Kindly, reach out to HR or Admin if this was done without your knowledge.',
+        message='This is to notify you that you have successfully rest your password. Kindly, reach out to HR or Admin if this was done without your knowledge.',
         fail_silently=True
     )
 
 def send_deactivation_email(user):    
     user.email_user(
         subject='Dectivation Email',
-        message=f'This is to notify you that you are been deactivated. Kindly, reach out to HR or Admin.',
+        message='This is to notify you that you are been deactivated. Kindly, reach out to HR or Admin.',
         fail_silently=True
     )
 

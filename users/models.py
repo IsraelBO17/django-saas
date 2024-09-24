@@ -10,6 +10,7 @@ class User(AbstractUser):
     username = None
     first_name = None
     last_name = None
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_('email address'), unique=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)

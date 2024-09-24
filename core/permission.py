@@ -1,5 +1,6 @@
 from ninja_extra import permissions
-    
+
+
 class IsSuperAdmin(permissions.IsAuthenticated):
     def has_permission(self, request, controller):
         user = request.user

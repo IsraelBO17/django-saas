@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'ninja_jwt.token_blacklist',
     # Local apps
     'users',
+    'organizations'
 ]
 
 MIDDLEWARE = [
@@ -59,27 +60,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Test Databases
-# SQLite
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# Postgresql
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': getenv('PGDATABASE'),
+            'USER': getenv('PGUSER'),
+            'PASSWORD': getenv('PGPASSWORD'),
+            'HOST': getenv('PGHOST'),
+            'PORT': getenv('PGPORT', 5432),
+            'OPTIONS': {
+            'sslmode': 'require',
+            },
+        }
+    }
+
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': getenv('PGDATABASE'),
-    'USER': getenv('PGUSER'),
-    'PASSWORD': getenv('PGPASSWORD'),
-    'HOST': getenv('PGHOST'),
-    'PORT': getenv('PGPORT', 5432),
-    'OPTIONS': {
-      'sslmode': 'require',
-    },
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv('DEVPGDATABASE'),
+        'USER': getenv('DEVPGUSER'),
+        'PASSWORD': getenv('DEVPGPASSWORD'),
+        'HOST': getenv('DEVPGHOST'),
+        'PORT': getenv('DEVPGPORT', 5432),
+        'OPTIONS': {
+        'sslmode': 'require',
+        },
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [

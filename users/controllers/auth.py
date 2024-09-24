@@ -27,12 +27,13 @@ from utils.email import (
 User = get_user_model()
 
 
-@api_controller('auth', tags=['Auth'])
+@api_controller('auth', tags=['Auth'], auth=None)
 class AuthController(NinjaJWTDefaultController):
 
     @route.post('/login', response=LoginOutSchema, url_name="token_obtain_pair")
-    def obtain_token(self, user_token: LoginInputSchema, response: HttpResponse):
+    def obtain_token(self, user_token: LoginInputSchema):
         token_data = user_token.get_response_schema_init_kwargs()
+        response: HttpResponse = self.context.response
         response.set_cookie(
             key="refresh_token",
             value=str(token_data["refresh"]),
@@ -62,7 +63,8 @@ class AuthController(NinjaJWTDefaultController):
     
 
     @route.post('/refresh', url_name="token_refresh", response={204: None})
-    def refresh_token(self, request: HttpRequest, response: HttpResponse):
+    def refresh_token(self):
+        request: HttpRequest = self.context.request
         refresh_token = request.COOKIES.get("refresh_token")
         if not refresh_token:
             raise exceptions.ValidationError('refresh token is missing from cookie')
@@ -71,6 +73,8 @@ class AuthController(NinjaJWTDefaultController):
         data = {}
 
         data = {"access": str(refresh.access_token)}
+
+        response: HttpResponse = self.context.response
 
         if api_settings.ROTATE_REFRESH_TOKENS:
             if api_settings.BLACKLIST_AFTER_ROTATION:
@@ -112,7 +116,8 @@ class AuthController(NinjaJWTDefaultController):
     
 
     @route.post('/verify', url_name='token_verify', response={204:None})
-    def verify_token(self, request: HttpRequest):
+    def verify_token(self):
+        request: HttpRequest = self.context.request
         access_token = request.COOKIES.get("access_token")
 
         if not access_token:
@@ -132,17 +137,18 @@ class AuthController(NinjaJWTDefaultController):
     
 
     @route.post('logout', url_name='logout')
-    def logout(self, response: HttpResponse):
-        response.delete_cookie('access_token')
-        response.delete_cookie('refresh_token')
-
-        return self.create_response(
+    def logout(self):
+        res = self.create_response(
             message={
                 'status': 'success',
                 'message': 'User logged out successfully.'
             },
             status_code=200
         )
+        res.delete_cookie('access_token', path='/')
+        res.delete_cookie('refresh_token', path='/')
+
+        return res        
 
 
     @route.post('/verify-user', url_name='verify_user')

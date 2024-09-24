@@ -1,4 +1,6 @@
+from typing import List
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission, Group
 from ninja import Schema, ModelSchema
 import ninja_jwt.exceptions as exceptions
 from ninja_jwt.schema import TokenObtainPairInputSchema
@@ -7,6 +9,18 @@ from utils.helpers import is_password_strong_enough
 
 
 User = get_user_model()
+
+class PermissionSchema(ModelSchema):
+    class Meta:
+        model = Permission
+        fields = ['id','name']
+
+
+class GroupSchema(Schema):
+    permissions: List[PermissionSchema] = []
+    class Meta:
+        model = Group
+        fields = ['id','name','permissions']
 
 
 class UserInSchema(Schema):
@@ -22,6 +36,7 @@ class UserInSchema(Schema):
 
 
 class UserOutSchema(ModelSchema):
+    groups: List[GroupSchema] = []
     class Meta:
         model = User
         fields = ['id','email','is_staff','is_active','is_verified','date_joined']
